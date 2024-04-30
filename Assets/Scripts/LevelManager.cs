@@ -132,4 +132,9 @@ public class LevelManager : MonoBehaviour
         score += value;
         txtScore.text = "Score: " + score;
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }
