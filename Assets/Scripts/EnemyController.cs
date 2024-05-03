@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     private NavMeshAgent navMeshAgent;
-
+    public float health;
     private GameObject player;
 
     private void Start() 
@@ -25,6 +25,17 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             player.GetComponent<PlayerController>().AddHealth(-10);
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        // add score 
+        GameObject.Find("LevelManager").GetComponent<LevelManager>().AddScore(health > damage ? damage : health);
+        if (health <= 0)
+        {
+            Destroy(gameObject);
         }
     }
 

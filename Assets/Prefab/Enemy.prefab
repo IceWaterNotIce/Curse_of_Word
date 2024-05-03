@@ -119,6 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1190ec6ae722824696094940e6ad69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelManager: {fileID: 0}
+  health: 10
 --- !u!195 &1808638903726252258
 NavMeshAgent:
   m_ObjectHideFlags: 0

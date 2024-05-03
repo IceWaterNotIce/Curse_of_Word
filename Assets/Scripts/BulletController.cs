@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
 
     GameObject nearestEnemy = null;
     GameObject[] enemies = null;
+    public float damage = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,10 +36,8 @@ public class Bullet : MonoBehaviour
             {
                 if (Vector3.Distance(transform.position, nearestEnemy.transform.position) < 0.5f)
                 {
-                    //addscore
-                    GameObject.Find("LevelManager").GetComponent<LevelManager>().AddScore(1);
                     Destroy(gameObject);
-                    Destroy(nearestEnemy);
+                    nearestEnemy.GetComponent<EnemyController>().TakeDamage(damage);
                 }
             }
         }

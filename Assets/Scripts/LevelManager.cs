@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour
     // set the max number of enemies and mushrooms
     public int maxEnemies = 10;
 
-    public int score = 0;
+    public float score = 0;
 
     [Header("UI")]
     [SerializeField] private GameObject SettingPanel;
@@ -127,7 +127,7 @@ public class LevelManager : MonoBehaviour
         SettingPanel.SetActive(false);
     }
 
-    public void AddScore(int value)
+    public void AddScore(float value)
     {
         score += value;
         txtScore.text = "Score: " + score;
