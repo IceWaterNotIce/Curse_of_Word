@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
         if (Vector3.Distance(transform.position, targetPosition) > minDistance)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetPosition - transform.position), 5 * Time.deltaTime);
         }
 
         //#region camera follow player position with a range
