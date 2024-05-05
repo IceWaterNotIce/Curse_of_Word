@@ -1,4 +1,4 @@
-name: Copy Docs to gh-pages
+name: Copy Build web to gh-pages
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  copy-docs:
+  copy-web:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,10 +18,10 @@ jobs:
           git config --global user.name "IceWaterNotIce"
           git config --global user.email "icewaternotice@gmail.com"
 
-      - name: Copy docs to gh-pages branch
+      - name: Copy web to gh-pages branch
         run: |
           git checkout gh-pages
-          git checkout main -- docs
+          git checkout main -- builds/web
           git add -A
           git commit -m "Update docs from main"
           git push origin gh-pages
