@@ -1,5 +1,7 @@
 # 字咒
 
+- [English Version](MET4330_Game_Proposal.md)
+
 ## 目錄
 
 - [簡介](#簡介)

@@ -1,6 +1,6 @@
 # Curse of Word
 
-- [Chinese Version](README_CN.md)
+- [Chinese Version](MET4330_Game_Proposal_cn.md)
 
 ## Table of contents
 
