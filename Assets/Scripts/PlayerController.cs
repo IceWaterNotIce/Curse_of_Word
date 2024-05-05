@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject PlayerCamera;
     [SerializeField] private float cameraDistance = 16.0f;
-    [SerializeField] private GameObject pointerPrefab;
+    [SerializeField] private GameObject pointerPrefab; // to store the pointer prefab
+    private GameObject ObjPointer; // to store the pointer object generated in the scene
     [SerializeField] private GameObject bulletPrefab;
 
     [Header("UI")]
@@ -36,14 +37,11 @@ public class PlayerController : MonoBehaviour
             {
                 // only get x,z position
                 targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-                //clear all pointers in the scene
-                GameObject[] pointers = GameObject.FindGameObjectsWithTag("Pointer");
-                foreach (GameObject pointer in pointers)
-                {
-                    Destroy(pointer);
-                }
+                //clear all pointers in the scene ( find all gameobjects with use prefab "pointer")
+                Destroy(ObjPointer);
                 // create a object from prefab "pointer" to show the target position
-                Instantiate(pointerPrefab, targetPosition, Quaternion.identity);
+                ObjPointer = Instantiate(pointerPrefab, targetPosition, Quaternion.identity);
+                
             }
         }
 

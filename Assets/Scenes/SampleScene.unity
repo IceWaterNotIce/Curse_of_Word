@@ -3392,7 +3392,7 @@ MonoBehaviour:
   health: 100
   PlayerCamera: {fileID: 963194225}
   cameraDistance: 15.5
-  pointerPrefab: {fileID: 3935518340156446039, guid: bfb7705366a6b204ab4cd45281cc0504, type: 3}
+  pointerPrefab: {fileID: 919132149155446097, guid: 4c3172b763819b245a1f9eec7811f4ce, type: 3}
   bulletPrefab: {fileID: 6304282669000493089, guid: f876d4aa368dd444dbbe227beff83d36, type: 3}
   txtPaper: {fileID: 2031618111}
   inputPlayerHealth: {fileID: 1512644539}
