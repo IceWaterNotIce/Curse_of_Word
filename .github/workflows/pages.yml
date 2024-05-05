@@ -20,6 +20,7 @@ jobs:
 
       - name: Copy web to gh-pages branch
         run: |
+          git fetch
           git checkout gh-pages
           git checkout main -- builds/web
           git add -A
