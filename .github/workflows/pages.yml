@@ -1,0 +1,40 @@
+name: Build and Deploy Website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check if 'docs' folder has changed
+        id: check_docs_change
+        run: |
+          if git diff --name-only HEAD^ HEAD | grep -q '^docs/'; then
+            echo "::set-output name=changed::true"
+          else
+            echo "::set-output name=changed::false"
+          fi
+
+      - name: Copy 'docs' content to 'gh-pages' branch
+        if: steps.check_docs_change.outputs.changed == 'true'
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git checkout gh-pages
+
+          # Clear existing content in gh-pages branch
+          git rm -rf .
+
+          # Copy 'docs' content to gh-pages branch
+          cp -R docs/* .
+
+          git add .
+          git commit -m "Update gh-pages with 'docs' content"
+          git push origin gh-pages
