@@ -22,7 +22,7 @@ jobs:
         run: |
           git fetch
           git checkout gh-pages
-          git checkout main -- Builds/Web
+          git checkout main -- Builds/Web/*
           git add -A
           git commit -m "Update docs from main"
           git push origin gh-pages
