@@ -9,18 +9,22 @@ public class EnemyController : MonoBehaviour
     public float health;
     private GameObject player;
 
-    private void Start() 
+    [Header("Enemy prefabs")]
+
+    public GameObject cracked_prefab;
+
+    private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        player = GameObject.Find("Player");    
+        player = GameObject.Find("Player");
     }
 
-    private void Update() 
+    private void Update()
     {
         navMeshAgent.SetDestination(player.transform.position);
     }
 
-    private void OnTriggerEnter(Collider other) 
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -35,8 +39,15 @@ public class EnemyController : MonoBehaviour
         GameObject.Find("LevelManager").GetComponent<LevelManager>().AddScore(health > damage ? damage : health);
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Dead();
         }
+    }
+
+    public void Dead()
+    {
+        GameObject cracked_enemy = Instantiate(cracked_prefab, transform.position, transform.rotation);
+        Destroy(gameObject);
+        Destroy(cracked_enemy, 2);
     }
 
 }

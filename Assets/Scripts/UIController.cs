@@ -2,29 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.TextCore.Text;
-using Unity.VisualScripting;
+
 using UnityEngine.UI;
+using Unity.VisualScripting;
 public class UIController : MonoBehaviour
 {
     // txtmeshpro object list for key ( A-Z )
 
 
-    [Header("UI")]
+    [Header("Setting Panel")]
     [SerializeField] private GameObject SettingPanel;
-    //tmp btn
+    [SerializeField] private Button btnSaveGame;
+    [SerializeField] private Button btnExitGame;
+    [SerializeField] private Button btnBackHome;
     [SerializeField] private Button btnContinue;
+
+    [Header("Gaming UI")]
+    // show the words which are waiting player to type
     [SerializeField] private TextMeshProUGUI txtPaper;
-    [SerializeField] private TextMeshProUGUI txtSaveGame;
-    public TMP_InputField inputField;
-    public List<TMP_Text> keyTexts;
+
 
     [Header("Font")]
     public TMP_FontAsset fontGeneral;
     public TMP_FontAsset fontKeyPressed;
 
-    [Header("Time")]
     public float timeToResetFont = 0.1f;
+
+    public LevelManager levelManager;
+    public DataController dataController;
 
 
     // Start is called before the first frame update
@@ -36,30 +41,27 @@ public class UIController : MonoBehaviour
     void Update()
     {
 
-        for (int i = 0; i < keyTexts.Count; i++)
-        {
-            if (inputField.text.ToLower() == keyTexts[i].text.ToLower())
-            {
-                keyTexts[i].font = fontKeyPressed;
-                //set a clock to reset the font
-                StartCoroutine(ResetFont(keyTexts[i]));
-            }
-        }
+        
     }
-    IEnumerator ResetFont(TMP_Text text)
-    {
-        yield return new WaitForSeconds(timeToResetFont);
-        text.font = fontGeneral;
-    }
+    
     void LateUpdate()
     {
-        // clear all content in field
-        inputField.text = "";
+        
     }
 
-    public void addKeyText()
+    public void ToggleSettingPanel()
     {
-        // random [a-z] character and add to txtPaper text
-        txtPaper.text += (char)('a' + Random.Range(0, 26));
+        if (SettingPanel.activeSelf)
+        {
+            SettingPanel.SetActive(false);
+            levelManager.ResumeGame();
+        }
+        else
+        {
+            SettingPanel.SetActive(true);
+            levelManager.StopGame();
+        }
     }
+
+
 }

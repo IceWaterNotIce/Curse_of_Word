@@ -49,7 +49,9 @@ public class LevelManager : MonoBehaviour
 
 
     private void Start()
+
     {
+        Debug.Log("LevelManager Start");
         player = GameObject.Find("Player");
         AddScore(0);
         InvokeRepeating("SpawnEnemy", enemyStartTime, enemyRepeatTime);
@@ -118,13 +120,11 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 0;
         // setting panel active
-        SettingPanel.SetActive(true);
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1;
-        SettingPanel.SetActive(false);
     }
 
     public void AddScore(float value)
@@ -137,4 +137,6 @@ public class LevelManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+
 }

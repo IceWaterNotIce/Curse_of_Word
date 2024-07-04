@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Paper
   - Pointer
+  - Effect
   layers:
   - Default
   - TransparentFX

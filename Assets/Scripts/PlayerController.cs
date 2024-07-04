@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
         // get mouse click position and move player to this position
         if (Input.GetMouseButtonDown(0))
         {
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -41,7 +42,6 @@ public class PlayerController : MonoBehaviour
                 Destroy(ObjPointer);
                 // create a object from prefab "pointer" to show the target position
                 ObjPointer = Instantiate(pointerPrefab, targetPosition, Quaternion.identity);
-                
             }
         }
 
@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour
             Vector3 newPosition = new Vector3(transform.position.x, PlayerCamera.transform.position.y, transform.position.z);
             PlayerCamera.transform.position = Vector3.MoveTowards(PlayerCamera.transform.position, newPosition, speed * Time.deltaTime);
         }
-
         //#endregion
 
         // if player type the first letter of txtPaper text, remove the first letter
@@ -69,11 +68,22 @@ public class PlayerController : MonoBehaviour
             {
                 return;
             }
-            if (txtPaper.text.Length > 0 && txtPaper.text[0] == Input.inputString[0])
+            if (txtPaper.text.Length > 0)
             {
-                txtPaper.text = txtPaper.text.Substring(1);
-                //create bullet
-                Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                string WhitespaceSymbol = PlayerPrefs.GetString("WhitespaceSymbol", " ");
+                if (txtPaper.text[0] == Input.inputString[0] && txtPaper.text[0] != WhitespaceSymbol[0])
+                {
+                    txtPaper.text = txtPaper.text.Substring(1);
+                    //create bullet
+                    Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                    return;
+                }
+                if(Input.inputString[0] == ' ' && txtPaper.text[0] == WhitespaceSymbol[0])
+                {
+                    txtPaper.text = txtPaper.text.Substring(1);
+                    //create bullet
+                    Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                }
             }
         }
     }
