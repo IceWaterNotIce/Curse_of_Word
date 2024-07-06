@@ -53,7 +53,14 @@ public class UIController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            GoBack();
+            if(panelStack.Count > 0)
+            {
+                GoBack();
+            }
+            else
+            {
+                ToggleSettingPanel();
+            }
         }
     }
 
@@ -66,6 +73,7 @@ public class UIController : MonoBehaviour
     {
         if (SettingPanel.activeSelf)
         {
+            panelStack.Pop();
             SettingPanel.SetActive(false);
             btnSetting.gameObject.SetActive(true);
             btnReturn.gameObject.SetActive(false);
@@ -82,18 +90,28 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void OpenDictionaryPanel()
+    {
+        panelStack.Peek().SetActive(false);
+        DictionaryPanel.SetActive(true);
+        panelStack.Push(DictionaryPanel);
+    }
 
 
     public void GoBack()
     {
+
+        Debug.Log(panelStack.Count);
+        Debug.Log(panelStack.Peek().name);
         if (panelStack.Count > 1)
         {
             panelStack.Pop().SetActive(false);
             panelStack.Peek().SetActive(true);
         }
-        if (panelStack.Count == 1)
+        else if (panelStack.Count == 1)
         {
             ToggleSettingPanel();
         }
+
     }
 }
