@@ -19,7 +19,16 @@ public class UIController : MonoBehaviour
 
     [Header("Gaming UI")]
     // show the words which are waiting player to type
+
+    [SerializeField] private Button btnSetting;
+    [SerializeField] private Button btnReturn;
+    private Stack<GameObject> panelStack = new Stack<GameObject>();
     [SerializeField] private TextMeshProUGUI txtPaper;
+
+    [Header("Dictionary Panel")]
+
+    [SerializeField] private GameObject DictionaryPanel;
+
 
 
     [Header("Font")]
@@ -32,6 +41,8 @@ public class UIController : MonoBehaviour
     public DataController dataController;
 
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,13 +51,15 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
-
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GoBack();
+        }
     }
-    
+
     void LateUpdate()
     {
-        
+
     }
 
     public void ToggleSettingPanel()
@@ -54,14 +67,33 @@ public class UIController : MonoBehaviour
         if (SettingPanel.activeSelf)
         {
             SettingPanel.SetActive(false);
+            btnSetting.gameObject.SetActive(true);
+            btnReturn.gameObject.SetActive(false);
+
             levelManager.ResumeGame();
         }
         else
         {
             SettingPanel.SetActive(true);
+            btnSetting.gameObject.SetActive(false);
+            btnReturn.gameObject.SetActive(true);
+            panelStack.Push(SettingPanel);
             levelManager.StopGame();
         }
     }
 
 
+
+    public void GoBack()
+    {
+        if (panelStack.Count > 1)
+        {
+            panelStack.Pop().SetActive(false);
+            panelStack.Peek().SetActive(true);
+        }
+        if (panelStack.Count == 1)
+        {
+            ToggleSettingPanel();
+        }
+    }
 }

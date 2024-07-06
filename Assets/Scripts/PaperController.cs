@@ -42,32 +42,12 @@ public class PaperController : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             //add paper content
-            AddPaperContent();
+            txtPaper.GetComponent<txtPaperController>().AddPaperContent();
             //destroy paper
             Destroy(gameObject);
         }
     }
 
-    public void AddPaperContent()
-    {
-        // get all the words from data controller
-        string[] words = dataController.GetWords();
-        //randomly select 5 words
-        string[] selectedWords = new string[5]; 
-        for (int i = 0; i < 5; i++)
-        {
-            selectedWords[i] = words[Random.Range(0, words.Length)];
-        }
-        //add these words to txtPaper
-        string WhitespaceSymbol = PlayerPrefs.GetString("WhitespaceSymbol", " ");
-        if (txtPaper.GetComponent<TextMeshProUGUI>().text == "")
-        {
-            txtPaper.GetComponent<TextMeshProUGUI>().text = string.Join(WhitespaceSymbol, selectedWords);
-        }
-        else
-        {
-            txtPaper.GetComponent<TextMeshProUGUI>().text += WhitespaceSymbol + string.Join(WhitespaceSymbol, selectedWords);
-        }
-    }
+    
 }
 

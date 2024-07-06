@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // get mouse click position and move player to this position
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Time.timeScale != 0)
         {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -61,31 +61,7 @@ public class PlayerController : MonoBehaviour
         }
         //#endregion
 
-        // if player type the first letter of txtPaper text, remove the first letter
-        if (Input.anyKeyDown)
-        {
-            if (Input.inputString.Length == 0)
-            {
-                return;
-            }
-            if (txtPaper.text.Length > 0)
-            {
-                string WhitespaceSymbol = PlayerPrefs.GetString("WhitespaceSymbol", " ");
-                if (txtPaper.text[0] == Input.inputString[0] && txtPaper.text[0] != WhitespaceSymbol[0])
-                {
-                    txtPaper.text = txtPaper.text.Substring(1);
-                    //create bullet
-                    Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                    return;
-                }
-                if(Input.inputString[0] == ' ' && txtPaper.text[0] == WhitespaceSymbol[0])
-                {
-                    txtPaper.text = txtPaper.text.Substring(1);
-                    //create bullet
-                    Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                }
-            }
-        }
+        
     }
 
     public void AddHealth(float value)
@@ -98,5 +74,10 @@ public class PlayerController : MonoBehaviour
             //game over
             GameObject.Find("LevelManager").GetComponent<LevelManager>().GameOver();
         }
+    }
+    public void Shoot()
+    {
+        //create bullet
+        Instantiate(bulletPrefab, transform.position, Quaternion.identity);
     }
 }

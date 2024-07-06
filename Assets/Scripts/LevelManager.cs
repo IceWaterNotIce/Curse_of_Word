@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    public float radius = 30f;
+    public float radius = 70f;
 
     public GameObject enemy;
     private GameObject player;
@@ -34,17 +34,7 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (Time.timeScale == 0)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                StopGame();
-            }
-        }
+
     }
 
 
