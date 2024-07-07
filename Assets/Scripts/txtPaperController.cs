@@ -8,13 +8,17 @@ public class txtPaperController : MonoBehaviour
 
     public DataController dataController;
     public GameObject Player;
-    public string[] textList;
+    public List<string> textList = new List<string>();
+
+    public AudioClip WordSound;
+    private bool wordSoundPlayed = false;
+    public float volume = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
 
-    }      
+    }
 
     // Update is called once per frame
     void Update()
@@ -31,7 +35,23 @@ public class txtPaperController : MonoBehaviour
                 string WhitespaceSymbol = PlayerPrefs.GetString("WhitespaceSymbol", " ");
                 if (GetComponent<TextMeshProUGUI>().text[0] == Input.inputString[0] && GetComponent<TextMeshProUGUI>().text[0] != WhitespaceSymbol[0])
                 {
+                    if (!wordSoundPlayed)
+                    {
+                        WordSound = Resources.Load<AudioClip>($"Audios/{textList[0]}");
+                        Debug.Log(WordSound);
+                        AudioSource.PlayClipAtPoint(WordSound, Camera.main.transform.position, volume);
+                        wordSoundPlayed = true;
+                    }
+
+                    textList[0] = textList[0].Substring(1); 
                     GetComponent<TextMeshProUGUI>().text = GetComponent<TextMeshProUGUI>().text.Substring(1);
+
+                    if(textList[0] == "")
+                    {
+                        textList.RemoveAt(0);
+                        wordSoundPlayed = false;
+                    }
+                     
                     //create bullet
                     Player.GetComponent<PlayerController>().Shoot();
                     return;
@@ -41,22 +61,33 @@ public class txtPaperController : MonoBehaviour
                     GetComponent<TextMeshProUGUI>().text = GetComponent<TextMeshProUGUI>().text.Substring(1);
                     //create bullet
                     Player.GetComponent<PlayerController>().Shoot();
-                }
+                }    
             }
         }
+    }
+    public void playSound(string word)
+    {
+        Debug.Log("WordSound: " + word);
+        WordSound = Resources.Load<AudioClip>($"Audios/{word}.mp3");
+        Debug.Log(WordSound);
+        // play sound
+        AudioSource.PlayClipAtPoint(WordSound, Camera.main.transform.position, volume);
     }
 
     public void AddPaperContent()
     {
         // get all the words from data controller
         string[] words = dataController.GetWords();
-        //randomly select 5 words
+        // randomly select 5 words
         string[] selectedWords = new string[5];
         for (int i = 0; i < 5; i++)
         {
             selectedWords[i] = words[Random.Range(0, words.Length)];
         }
-        //add these words to txtPaper
+        // add these words to txtPaper
+        Debug.Log(textList.Count);
+        textList.AddRange(selectedWords);
+        Debug.Log(textList.Count);
         string WhitespaceSymbol = PlayerPrefs.GetString("WhitespaceSymbol", " ");
         if (GetComponent<TextMeshProUGUI>().text == "")
         {
