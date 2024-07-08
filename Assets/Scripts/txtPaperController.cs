@@ -38,28 +38,11 @@ public class txtPaperController : MonoBehaviour
                 {
                     if (!wordSoundPlayed)
                     {
-                        string audioFilePath = Path.Combine(Application.persistentDataPath, $"{textList[0]}.mp3");
-                        if (File.Exists(audioFilePath))
+                        WordSound = Resources.Load<AudioClip>($"Audios/{textList[0]}");
+                        if (WordSound != null)
                         {
-                            byte[] data = File.ReadAllBytes(audioFilePath);
-                            float[] audioData = new float[data.Length / 4];
-                            AudioClip audioClip = AudioClip.Create(
-                                    audioFilePath,
-                                    audioData.Length,
-                                    1,
-                                    AudioSettings.outputSampleRate,
-                                    false
-                                );
-                            audioClip.SetData(audioData, 0);
-                            WordSound = audioClip;
                             AudioSource.PlayClipAtPoint(WordSound, Camera.main.transform.position, volume);
                         }
-                        // WordSound = Resources.Load<AudioClip>($"Audios/{textList[0]}");
-                        // Debug.Log(WordSound);
-                        // if (WordSound != null)
-                        // {
-                        //     AudioSource.PlayClipAtPoint(WordSound, Camera.main.transform.position, volume);
-                        // }
                         wordSoundPlayed = true;
                     }
 
@@ -85,15 +68,11 @@ public class txtPaperController : MonoBehaviour
             }
         }
     }
-    public void playSound(string word)
-    {
-        Debug.Log("WordSound: " + word);
-        WordSound = Resources.Load<AudioClip>($"Audios/{word}.mp3");
-        Debug.Log(WordSound);
-        // play sound
-        AudioSource.PlayClipAtPoint(WordSound, Camera.main.transform.position, volume);
-    }
 
+
+    /// <summary>
+    /// Add words to txtPaper from data controller
+    /// </summary>
     public void AddPaperContent()
     {
         // get all the words from data controller
@@ -105,9 +84,9 @@ public class txtPaperController : MonoBehaviour
             selectedWords[i] = words[Random.Range(0, words.Length)];
         }
         // add these words to txtPaper
-        Debug.Log(textList.Count);
+
         textList.AddRange(selectedWords);
-        Debug.Log(textList.Count);
+
         string WhitespaceSymbol = PlayerPrefs.GetString("WhitespaceSymbol", " ");
         if (GetComponent<TextMeshProUGUI>().text == "")
         {

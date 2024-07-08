@@ -42,7 +42,7 @@ public class DictonaryUIController : MonoBehaviour
 
     public void OnAddButtonClicked()
     {
-        dataController.InsertWord(wordInput.text, meaningInput.text, chineseMeaningInput.text);
+        dataController.InsertWord(wordInput.text, meaningInput.text, chineseMeaningInput.text, true);
         //clear input field
         wordInput.text = "";
         meaningInput.text = "";

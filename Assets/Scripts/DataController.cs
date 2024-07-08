@@ -12,6 +12,7 @@ public class EnglishWord
     public string Word { get; set; }
     public string Meaning { get; set; }
     public string ChineseMeaning { get; set; }
+    public bool IsLearning { get; set; }
 }
 
 public class DataController : MonoBehaviour
@@ -23,7 +24,7 @@ public class DataController : MonoBehaviour
         GetWords();
     }
 
-    public void InsertWord(string word, string meaning, string chineseMeaning)
+    public void InsertWord(string word, string meaning, string chineseMeaning, bool isLearning)
     {
         Connection = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
         //insert data
@@ -31,7 +32,8 @@ public class DataController : MonoBehaviour
         {
             Word = word,
             Meaning = meaning,
-            ChineseMeaning = chineseMeaning
+            ChineseMeaning = chineseMeaning,
+            IsLearning = isLearning
         });
         Connection.Close();
     }
@@ -41,6 +43,7 @@ public class DataController : MonoBehaviour
         Connection = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
         List<EnglishWord> tables = Connection.Table<EnglishWord>().ToList();
         List<string> words = new List<string>();
+        tables = tables.Where(x => x.IsLearning == true).ToList();
         foreach (var item in tables)
         {
             words.Add(item.Word);
