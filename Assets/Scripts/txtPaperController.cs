@@ -39,7 +39,10 @@ public class txtPaperController : MonoBehaviour
                     {
                         WordSound = Resources.Load<AudioClip>($"Audios/{textList[0]}");
                         Debug.Log(WordSound);
-                        AudioSource.PlayClipAtPoint(WordSound, Camera.main.transform.position, volume);
+                        if (WordSound != null)
+                        {
+                            AudioSource.PlayClipAtPoint(WordSound, Camera.main.transform.position, volume);
+                        }
                         wordSoundPlayed = true;
                     }
 
