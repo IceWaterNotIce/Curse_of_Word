@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using System.IO;
+using UnityEngine.Networking;
 public class txtPaperController : MonoBehaviour
 {
 
@@ -37,24 +38,40 @@ public class txtPaperController : MonoBehaviour
                 {
                     if (!wordSoundPlayed)
                     {
-                        WordSound = Resources.Load<AudioClip>($"Audios/{textList[0]}");
-                        Debug.Log(WordSound);
-                        if (WordSound != null)
+                        string audioFilePath = Path.Combine(Application.persistentDataPath, $"{textList[0]}.mp3");
+                        if (File.Exists(audioFilePath))
                         {
+                            byte[] data = File.ReadAllBytes(audioFilePath);
+                            float[] audioData = new float[data.Length / 4];
+                            AudioClip audioClip = AudioClip.Create(
+                                    audioFilePath,
+                                    audioData.Length,
+                                    1,
+                                    AudioSettings.outputSampleRate,
+                                    false
+                                );
+                            audioClip.SetData(audioData, 0);
+                            WordSound = audioClip;
                             AudioSource.PlayClipAtPoint(WordSound, Camera.main.transform.position, volume);
                         }
+                        // WordSound = Resources.Load<AudioClip>($"Audios/{textList[0]}");
+                        // Debug.Log(WordSound);
+                        // if (WordSound != null)
+                        // {
+                        //     AudioSource.PlayClipAtPoint(WordSound, Camera.main.transform.position, volume);
+                        // }
                         wordSoundPlayed = true;
                     }
 
-                    textList[0] = textList[0].Substring(1); 
+                    textList[0] = textList[0].Substring(1);
                     GetComponent<TextMeshProUGUI>().text = GetComponent<TextMeshProUGUI>().text.Substring(1);
 
-                    if(textList[0] == "")
+                    if (textList[0] == "")
                     {
                         textList.RemoveAt(0);
                         wordSoundPlayed = false;
                     }
-                     
+
                     //create bullet
                     Player.GetComponent<PlayerController>().Shoot();
                     return;
@@ -64,7 +81,7 @@ public class txtPaperController : MonoBehaviour
                     GetComponent<TextMeshProUGUI>().text = GetComponent<TextMeshProUGUI>().text.Substring(1);
                     //create bullet
                     Player.GetComponent<PlayerController>().Shoot();
-                }    
+                }
             }
         }
     }
